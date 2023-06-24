@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gradient Background</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #a18cd1, #fbc2eb);
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.5em;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .round_button {
+            font-family: 'Montserrat', sans-serif;
+            display: inline-block;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background: #3EACBA;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+
+        .round_button:hover {
+            background: #48C6D4;
+        }
+
+        .color1,
+        .color2 {
+            appearance: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin: 0 10px;
+            outline: none;
+            border: 2px solid #fff;
+        }
+
+        .color1::-webkit-color-swatch-wrapper,
+        .color2::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .color1::-webkit-color-swatch,
+        .color2::-webkit-color-swatch {
+            border: none;
+            border-radius: 50%;
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5em;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1em;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Background Generator</h1>
+
+    <div class="container">
+        <span id="random" class="round_button">Randomize</span>
+        <input class="color1" type="color" name="color1" value="#a18cd1">
+        <input class="color2" type="color" name="color2" value="#fbc2eb">
+        <span id="rotate" class="round_button">&#8635; Rotate</span>
+    </div>
+
+    <h2>Current CSS Background</h2>
+    <h3></h3>
+
+    <script>
+        var css = document.querySelector("h3");
+        var color1 = document.querySelector(".color1");
+        var color2 = document.querySelector(".color2");
+        var body = document.querySelector("body");
+        var random = document.getElementById("random");
+        var rotate = document.getElementById("rotate");
+
+        var possibleDir = ["right", "left"];
+        var dir = "right";
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function setGradient() {
+            body.style.background = "linear-gradient(to " + dir + ", " + color1.value + ", " + color2.value + ")";
+            css.textContent = "background: " + body.style.background + ";";
+        }
+
+        function setRandomGradient() {
+            dir = possibleDir[Math.floor(Math.random() * 2)];
+            color1.value = getRandomColor();
+            color2.value = getRandomColor();
+            setGradient();
+        }
+
+        setGradient();
+
+        color1.addEventListener("input", setGradient);
+
+        color2.addEventListener("input", setGradient);
+
+        random.addEventListener("click", setRandomGradient);
+
+        rotate.addEventListener("click", function () {
+            if (dir === "left") dir = "right";
+            else dir = "left";
+            setGradient();
+        });
+    </script>
+</body>
+</html>
